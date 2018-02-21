@@ -9,11 +9,11 @@ module.exports = {
   output: {
     path: `${__dirname}/build`,
     filename: 'bundle-[hash].js',
-    publicPath: '/'
+    publicPath: '/',
   },
   plugins: [
     new HtmlPlugin({template: `${__dirname}/src/index.html`}),
-    new ExtractTextPlugin('bundle-[hash].css')
+    new ExtractTextPlugin('bundle-[hash].css'),
   ],
   module:{
     rules: [
@@ -26,6 +26,9 @@ module.exports = {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract(['css-loader'], ['sass-loader']),
       },
-    ]
+    ],
+  },
+  devServer: {
+    historyApiFallback: true,
   },
 };
