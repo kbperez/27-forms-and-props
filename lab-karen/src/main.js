@@ -10,43 +10,46 @@ class SearchForm extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
-      name: '',
-      num: 0,
+      topic: '',
+      num: '',
     };
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange (e) {
-    this.setState({name: e.target.value});
-    this.setState({num: e.target.value});
+  handleChange (e) { //reusable change handler from docs
+    let {name, value} = e.target;
+    this.setState({[name]: value});
   }
 
   handleSubmit (e) {
     e.preventDefault();
-    this.props.update_state(this.state.name);
-    this.props.update_state(this.state.num);
+    this.props.update_state(this.state.topic, this.state.num);
   }
 
   render() {
     return (
       <form
-        className="search-form"
+        className='search_form'
         onSubmit={this.handleSubmit}>
+        <h1>Reddit Search</h1>
+        <div className='container'>
 
-        <input
-          type="text"
-          name="reddit-topic"
-          value={this.state.name}
-          onChange={this.handleChange}
-          placeholder="Enter topic" />
+          <input className={this.props.error ? 'error' : 'input'}
+            type="text"
+            name="topic"
+            value={this.state.topic}
+            onChange={this.handleChange}
+            placeholder="Enter topic" />
 
-        <input
-          type="number"
-          name="reddit-display"
-          value={this.state.num}
-          onChange={this.handleChange}
-          placeholder="Enter number of items to display" />
+          <input className={this.props.error ? 'error' : 'input'}
+            type="number"
+            name="num"
+            value={this.state.num}
+            onChange={this.handleChange}
+            placeholder="Enter number of items to display" />
+        </div>
 
         <button type="submit">Search</button>
 
@@ -63,17 +66,25 @@ class SearchResultsList extends React.Component {
   render() {
     return (
       <div className="results">
-        {this.props.reddit ?
-          <section className="reddit-data">
-            console.log(this.props.reddit)
-            <h2>{this.props.reddit}</h2>
+        {this.props.topic ?
+          <section className="topic-data">
+            <h2>Reddit Search Results {this.props.topic.data.children[0].data.subreddit}</h2>
+            <ul>
+              {this.props.topic.data.children.map((a,b) => {
+                return <li key={b}>
+                  <a href={a.data.url}><h2>{a.data.title}.</h2></a>
+                  <p> Ups: {a.data.ups}</p>
+                </li>;
+              })
+              }
+            </ul>
           </section>
           :
           undefined
         }
 
-        {this.props.err ?
-          <section className="reddit-error">
+        {this.props.error ?
+          <section className="topic-error">
             <h2>You made an error</h2>
           </section>
           :
@@ -88,28 +99,30 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reddit: null,
+      topic: null,
       searchError: null,
     };
     this.searchApi = this.searchApi.bind(this);
     this.updateState = this.updateState.bind(this);
   }
 
-  searchApi(name) {
-    return superagent.get(`${API_URL}/${searchFormBoard}.json?limit=${searchFormLimit}`);
+  searchApi(topic, num) {
+    return superagent.get(`${API_URL}/${topic}.json?limit=${num}`);
   }
 
-  updateState (name) {
-    this.searchApi(name)
-      .then(res => this.setState({reddit: res.body, searchError: null}))
-      .catch(err => this.setState({reddit: null, searchError: err}));
+  updateState(topic, num) {
+    this.searchApi(topic, num)
+      .then(res => this.setState({topic: res.body, searchError: null}))
+      .catch(err => this.setState({topic: null, searchError: err}));
   }
+
+
 
   render() {
     return (
       <div className="application">
-        <SearchForm update_state={this.updateState}/>
-        <SearchResultsList reddit={this.state.reddit} error={this.state.searchError}/>
+        <SearchForm update_state={this.updateState} error={this.state.searchError}/>
+        <SearchResultsList topic={this.state.topic} error={this.state.searchError}/>
       </div>
     );
   }

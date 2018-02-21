@@ -15,7 +15,7 @@ App
 **SearchForm Component**
 - contains a text input for the user to supply a reddit board to look up
 - contains a number input for the user to limit the number of results to return (1-99)
-- onSubmit the form should make a request to http://www.reddit.com/r/${searchFormBoard}.json?limit=${searchFormLimit}
+- onSubmit the form should make a request to http://www.reddit.com/r/${topic}.json?limit=${limit}
 - on success it should pass the results to the application state
 - on failure it should add a class to the form called error and turn the form's inputs borders red
 
@@ -36,23 +36,27 @@ Fork this repository and install on your machine using git clone. Switch to the 
 
 This project requires Node JS and npm( Node package manager).
 
-The following excerpt from the existing package.json file shows the required package dependencies. Install devDependencies with *npm i -D (package name)* and regular dependencies with *npm i (package name)*
-.
+The following excerpt from the existing package.json file shows the required package dependencies. Install devDependencies with *npm i -D (package name)*.
+
 "devDependencies": {
   "babel-core": "^6.26.0",
   "babel-loader": "^7.1.2",
   "babel-preset-env": "^1.6.1",
   "babel-preset-react": "^6.24.1",
+  "cowsay-browser": "^1.1.8",
   "css-loader": "^0.28.9",
+  "eslint": "^4.18.1",
+  "eslint-plugin-react": "^7.7.0",
   "extract-text-webpack-plugin": "^3.0.2",
   "html-webpack-plugin": "^2.30.1",
   "node-sass": "^4.7.2",
   "react": "^16.2.0",
   "react-dom": "^16.2.0",
   "sass-loader": "^6.0.6",
+  "superagent": "^3.8.2",
   "webpack": "^3.11.0",
   "webpack-dev-server": "^2.11.1"
-},
+}
 
 Additionally, add the following scripts to your package.json file to run from the command line.
 ```
