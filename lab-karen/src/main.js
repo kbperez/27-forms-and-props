@@ -72,7 +72,7 @@ class SearchResultsList extends React.Component {
             <ul>
               {this.props.topic.data.children.map((a,b) => {
                 return <li key={b}>
-                  <a href={a.data.url}><h2>{a.data.title}.</h2></a>
+                  <a href={a.data.url}><h3>{a.data.title}.</h3></a>
                   <p> Ups: {a.data.ups}</p>
                 </li>;
               })
