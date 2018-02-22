@@ -1,35 +1,50 @@
-## Lab 27-forms-and-props
+## Lab 28-routing-and-testing
+
 
 This project creates an app with three React components according to the following structure
 ```
 App
-    SearchForm
-    SearchResultsList
+  Landing
+  Dashboard
+    NoteCreateForm
+    NoteList
+      NoteItem
 ```
 
 **App Component**
-- contains all of the application state
-- contain methods for modifying the application state
-- the state should have a topics array for holding the results of the search
+The App component should manage the frontend routes and have a navbar
+the / route should display the Landing component
+the /dashboard route should display the Dashboard component
 
-**SearchForm Component**
-- contains a text input for the user to supply a reddit board to look up
-- contains a number input for the user to limit the number of results to return (1-99)
-- onSubmit the form should make a request to http://www.reddit.com/r/${topic}.json?limit=${limit}
-- on success it should pass the results to the application state
-- on failure it should add a class to the form called error and turn the form's inputs borders red
+**Landing Component**
+The Landing component should display a brief description of the notes app
 
+**Dashboard Component**
+The Dashboard component should manage the entire application state.
+The state should contain a notes array
+It should have a bound addNote(note) method that adds a note to state.notes
+each note that gets added should have the following data
+- id: always should contain the result of uuid.v1()
+- editing: false by default
+- completed: false by default
+- content: user provided content
+- title: user provided title
+It should have a bound removeNote(note) method that removes a note from state.notes based on its id
 
-**SearchResultList Component**
-- should inherit all search results through props
-- stateless
-- if there are topics in the application state it should display an unordered list
-- Each list item in the unordered list should contain
-  - an anchor tag with a href to the topic.url
-  - inside the anchor a heading tag with the topic.title
-  - inside the anchor a p tag with the number of topic.ups
+**NoteCreateForm Component**
+onComplete the NoteForm should add a note to the application state
 
+**NoteList Component**
+should display an unordered list of NoteItem components
 
+**NoteItem Component**
+should display the notes content and title
+should display a delete button
+onClick the note should be removed from the application state
+
+**Test**
+Test Dashboard tests the initial state
+Test NoteCreateForm tests the initial state
 
 **Installation & Set-Up**
 Fork this repository and install on your machine using git clone. Switch to the lab-karen folder.
@@ -37,7 +52,7 @@ Fork this repository and install on your machine using git clone. Switch to the 
 This project requires Node JS and npm( Node package manager).
 
 The following excerpt from the existing package.json file shows the required package dependencies. Install devDependencies with *npm i -D (package name)*.
-
+```
 "devDependencies": {
   "babel-core": "^6.26.0",
   "babel-loader": "^7.1.2",
@@ -56,8 +71,8 @@ The following excerpt from the existing package.json file shows the required pac
   "superagent": "^3.8.2",
   "webpack": "^3.11.0",
   "webpack-dev-server": "^2.11.1"
-}
-
+},
+```
 Additionally, add the following scripts to your package.json file to run from the command line.
 ```
 "scripts": {
