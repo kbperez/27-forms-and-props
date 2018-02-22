@@ -4,7 +4,7 @@ class NoteCreateForm extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      contents: '',
+      content: '',
       title: '',
     };
     //Binding
@@ -12,19 +12,19 @@ class NoteCreateForm extends React.Component{
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   //functions
-  handleChange(e) {
-    let {name, value} = e.target;
+  handleChange(event) {
+    let {name, value} = event.target;
     this.setState({
       [name]:value,
     });
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit(event) {
+    event.preventDefault();
     this.props.addNote(this.state);
     //clear form for next note
     this.setState({
-      contents: '',
+      content: '',
       title: '',
     });
   }
@@ -42,8 +42,8 @@ class NoteCreateForm extends React.Component{
 
         <input
           type='text'
-          name='contents'
-          placeholder='enter contents'
+          name='content'
+          placeholder='enter content'
           value={this.state.contents}
           onChange={this.handleChange}
         />

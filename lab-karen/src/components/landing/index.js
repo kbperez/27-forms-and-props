@@ -5,6 +5,7 @@ class Landing extends React.Component{
     return(
       <div className='landing'>
         <h1>Welcome To The Notes App!</h1>
+        <p>Your virtual corkboard</p>
       </div>
     );
   }
